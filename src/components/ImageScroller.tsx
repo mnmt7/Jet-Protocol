@@ -31,7 +31,7 @@ const ImageScroller = ({ images }: { images: string[] }) => {
   return (
     <div
       ref={scrollerRef}
-      className="flex overflow-x-auto space-x-4 py-4 no-scrollbar content-center justify-center mt-20"
+      className="flex overflow-x-auto space-x-4 py-4 no-scrollbar content-center justify-center mt-32"
       onMouseEnter={() => {
         setScrolling(false);
       }}
