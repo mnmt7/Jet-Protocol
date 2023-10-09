@@ -99,7 +99,7 @@ const NavBar = () => {
               open ? "block" : "hidden"
             } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white`}
           >
-            <Link href="/login">launch app</Link>
+            <Link href={isLoggedIn ? "/dashboard" : "/login"}>launch app</Link>
           </div>
         )}
 
