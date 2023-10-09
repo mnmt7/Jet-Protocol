@@ -12,8 +12,25 @@ const NavBar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const supabase = createClientComponentClient();
   const router = useRouter();
+  const [showHeader, setShowHeader] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
 
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 200) {
+        if (window.scrollY > scrollY) {
+          setShowHeader(false);
+        } else {
+          setShowHeader(true);
+        }
+        setScrollY(window.scrollY);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [scrollY]);
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -44,77 +61,81 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between flex-wrap py-3 px-10 border-[0.1px] border-gray-600 rounded-full mt-8 bg-black relative">
-      <div className="flex items-center flex-shrink-0 text-white mr-6 lg:flex-grow">
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={120}
-          height={24}
-          className="w-32 h-auto hover:cursor-pointer"
-          onClick={() => {
-            router.push("/");
-          }}
-        />
-      </div>
-      <div className="block lg:hidden">
-        <button
-          onClick={handleToggle}
-          className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-white hover:border-white"
-        >
-          {open ? <FaTimes /> : <FaBars />}
-        </button>
-      </div>
-      <div
-        className={`${
-          open ? "block" : "hidden"
-        } absolute lg:static top-[60px] w-full left-0 lg:flex lg:items-center lg:w-auto lg:flex-grow bg-black pb-5 lg:pb-0`}
-      >
-        <div className="flex lg:flex-grow flex-col lg:flex-row text-center gap-x-8 pt-4 lg:pt-0">
-          <Link href="/products">
-            <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
-              products
-            </div>
-          </Link>
-          <Link href="/dao">
-            <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
-              dao
-            </div>
-          </Link>
-          <Link href="/build">
-            <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
-              build
-            </div>
-          </Link>
-          <Link href="/docs">
-            <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
-              docs
-            </div>
-          </Link>
+    showHeader && (
+      <nav className="fixed z-10 w-full m-auto max-w-[90vw] xl:max-w-7xl flex items-center justify-between flex-wrap py-3 px-10 border-[0.1px] border-gray-600 rounded-full mt-8 bg-black">
+        <div className="flex items-center flex-shrink-0 text-white mr-6 lg:flex-grow">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={120}
+            height={24}
+            className="w-32 h-auto hover:cursor-pointer"
+            onClick={() => {
+              router.push("/");
+            }}
+          />
         </div>
-
-        {pathname === "/dashboard" ? null : (
-          <div
-            className={`${
-              open ? "block" : "hidden"
-            } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white`}
+        <div className="block lg:hidden">
+          <button
+            onClick={handleToggle}
+            className="flex items-center px-3 py-2 border rounded text-white border-white hover:text-white hover:border-white"
           >
-            <Link href={isLoggedIn ? "/dashboard" : "/login"}>launch app</Link>
+            {open ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
+        <div
+          className={`${
+            open ? "block" : "hidden"
+          } absolute lg:static top-[60px] w-full left-0 lg:flex lg:items-center lg:w-auto lg:flex-grow bg-black pb-5 lg:pb-0`}
+        >
+          <div className="flex lg:flex-grow flex-col lg:flex-row text-center gap-x-8 pt-4 lg:pt-0">
+            <Link href="/products">
+              <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
+                products
+              </div>
+            </Link>
+            <Link href="/dao">
+              <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
+                dao
+              </div>
+            </Link>
+            <Link href="/build">
+              <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
+                build
+              </div>
+            </Link>
+            <Link href="/docs">
+              <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
+                docs
+              </div>
+            </Link>
           </div>
-        )}
 
-        {isLoggedIn && (
-          <div
-            className={`${
-              open ? "block" : "hidden"
-            } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white lg:ml-4`}
-            onClick={logout}
-          >
-            logout
-          </div>
-        )}
-      </div>
-    </nav>
+          {pathname === "/dashboard" ? null : (
+            <div
+              className={`${
+                open ? "block" : "hidden"
+              } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white`}
+            >
+              <Link href={isLoggedIn ? "/dashboard" : "/login"}>
+                launch app
+              </Link>
+            </div>
+          )}
+
+          {isLoggedIn && (
+            <div
+              className={`${
+                open ? "block" : "hidden"
+              } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white lg:ml-4`}
+              onClick={logout}
+            >
+              logout
+            </div>
+          )}
+        </div>
+      </nav>
+    )
   );
 };
 
