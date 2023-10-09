@@ -4,7 +4,7 @@ import React from "react";
 
 const Cta = () => {
   return (
-    <main className="pt-32">
+    <main className="pt-52 sm:pt-32">
       <section>
         <Image
           src="/gradient.png"
