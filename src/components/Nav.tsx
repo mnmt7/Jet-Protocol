@@ -71,22 +71,22 @@ const NavBar = () => {
         } absolute lg:static top-[60px] w-full left-0 lg:flex lg:items-center lg:w-auto lg:flex-grow bg-black pb-5 lg:pb-0`}
       >
         <div className="flex lg:flex-grow flex-col lg:flex-row text-center gap-x-8 pt-4 lg:pt-0">
-          <Link href="/about">
+          <Link href="/products">
             <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
               products
             </div>
           </Link>
-          <Link href="/services">
+          <Link href="/dao">
             <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
               dao
             </div>
           </Link>
-          <Link href="/contact">
+          <Link href="/build">
             <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
               build
             </div>
           </Link>
-          <Link href="/contact">
+          <Link href="/docs">
             <div className="hover:text-sage-green text-xl border-b lg:border-0 py-2 lg:py-0">
               docs
             </div>
