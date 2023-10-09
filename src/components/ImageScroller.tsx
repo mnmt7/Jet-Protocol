@@ -44,7 +44,7 @@ const ImageScroller = ({ images }: { images: string[] }) => {
           key={index}
           src={`/${img}`}
           alt={`scrolling img ${index}`}
-          className="w-auto hover:opacity-60 hover:cursor-pointer"
+          className="w-auto  hover:opacity-60 hover:cursor-pointer"
         />
       ))}
     </div>

@@ -14,15 +14,15 @@ function Page() {
   // instantiate supabase client
   const supabase = createClientComponentClient();
 
-  const handleEmailChange = (event: any) => {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event: any) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // sends a sign up request to supabase email provider
@@ -33,7 +33,7 @@ function Page() {
       // the user will be redirected to this url after clicking the link
       // this url is handled by the api/auth/callback.ts file
       options: {
-        emailRedirectTo: `${location.origin}/api/auth/callback`,
+        emailRedirectTo: `https://jet-protocol-six.vercel.app/api/auth/callback`,
       },
     });
 
