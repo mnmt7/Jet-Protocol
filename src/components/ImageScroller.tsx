@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 
 const ImageScroller = ({ images }: { images: string[] }) => {
   const [scrolling, setScrolling] = useState(true);
@@ -41,12 +40,10 @@ const ImageScroller = ({ images }: { images: string[] }) => {
       }}
     >
       {images.map((img, index) => (
-        <Image
+        <img
           key={index}
           src={`/${img}`}
           alt={`scrolling img ${index}`}
-          width={100}
-          height={100}
           className="w-auto hover:opacity-60 hover:cursor-pointer"
         />
       ))}
