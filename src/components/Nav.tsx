@@ -35,6 +35,7 @@ const NavBar = () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
       router.push("/");
+      setIsLoggedIn(false);
     }
   };
 
