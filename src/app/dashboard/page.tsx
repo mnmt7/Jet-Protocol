@@ -18,8 +18,8 @@ const Page = () => {
         <Loader />
       ) : (
         <div className="grid lg:grid-cols-6 md:grid-cols-4 sm:gap-x-4 gap-y-6 sm:grid-cols-3 grid-cols-2 gap-2 mt-10">
-          {data.results.map((movie: any) => {
-            return <MovieCard data={movie} />;
+          {data.results.map((movie: any, index: number) => {
+            return <MovieCard data={movie} key={index} />;
           })}
         </div>
       )}
