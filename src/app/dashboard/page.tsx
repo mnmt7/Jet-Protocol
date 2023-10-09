@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import NavBar from "@/components/Nav";
 import Loader from "@/components/Loader";
 
-const page = () => {
+const Page = () => {
   const { data, isLoading } = useQuery({
     queryFn: () => fetchDataFromApi("/movie/top_rated"),
   });
@@ -27,4 +27,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

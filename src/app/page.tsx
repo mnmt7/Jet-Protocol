@@ -2,7 +2,7 @@ import Nav from "@/components/Nav";
 import Cta from "@/components/Cta";
 import ImageScroller from "@/components/ImageScroller";
 
-const page = () => {
+const Page = () => {
   return (
     <>
       <Nav />
@@ -33,4 +33,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
