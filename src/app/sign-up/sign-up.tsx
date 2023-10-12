@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 function Page() {
   const [email, setEmail] = useState("");
@@ -25,17 +26,22 @@ function Page() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // sends a sign up request to supabase email provider
-    await supabase.auth.signUp({
-      email,
-      password,
-      // supabase will send a verification email to the user
-      // the user will be redirected to this url after clicking the link
-      // this url is handled by the api/auth/callback.ts file
-      options: {
-        emailRedirectTo: `https://jet-protocol-six.vercel.app/api/auth/callback`,
-      },
-    });
+    try {
+      // sends a sign up request to supabase email provider
+      await supabase.auth.signUp({
+        email,
+        password,
+        // supabase will send a verification email to the user
+        // the user will be redirected to this url after clicking the link
+        // this url is handled by the api/auth/callback.ts file
+        options: {
+          emailRedirectTo: `${location.origin}/api/auth/callback`,
+        },
+      });
+    } catch (error: any) {
+      toast.error(error.error_description || error.message);
+      return;
+    }
 
     setEmail("");
     setPassword("");

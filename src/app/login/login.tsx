@@ -6,6 +6,8 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import Loader from "@/components/Loader";
 
 function Page() {
   const [email, setEmail] = useState("");
@@ -30,17 +32,23 @@ function Page() {
 
     setLoggingIn(true);
 
-    // sends a signIn request to supabase, authenticating the user
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      // sends a signIn request to supabase, authenticating the user
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    setLoggingIn(false);
+      setLoggingIn(false);
 
-    // once the user is authenticated, redirect to the dashboard which is a protected route and conatins the movies list
-    if (!error) {
+      if (error) {
+        throw error;
+      }
+
+      // once the user is authenticated, redirect to the dashboard which is a protected route and conatins the movies list
       router.push("/dashboard");
+    } catch (error: any) {
+      toast.error(error.error_description || error.message);
     }
   };
 
@@ -119,7 +127,7 @@ function Page() {
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sage-green hover:bg-sage-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   disabled={loggingIn}
                 >
-                  {loggingIn ? "Signing in..." : "Sign in"}
+                  {loggingIn ? <Loader height={20} width={20} /> : "Sign in"}
                 </button>
               </div>
             </form>

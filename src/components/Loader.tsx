@@ -1,11 +1,15 @@
 import Image from "next/image";
 import React from "react";
 
-const Loader = () => {
+const Loader = ({ width, height }: { width?: number; height?: number }) => {
   return (
-    <div className="flex justify-center min-h-screen content-center">
-      <Image src="/spinner.svg" alt="Loading..." width={100} height={100} />
-    </div>
+    <Image
+      src="/spinner.svg"
+      alt="Loading..."
+      width={width}
+      height={height}
+      className="m-auto"
+    />
   );
 };
 

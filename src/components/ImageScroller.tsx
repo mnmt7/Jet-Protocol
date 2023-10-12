@@ -8,7 +8,7 @@ const ImageScroller = ({ images }: { images: string[] }) => {
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!scrolling) return; // stop scrolling if not scrolling
+    if (!scrolling) return; // stop scrolling if scrolling
     const intervalId = setInterval(() => {
       setScrollPosition((prevScroll) => {
         const maxScroll =
@@ -44,7 +44,7 @@ const ImageScroller = ({ images }: { images: string[] }) => {
           key={index}
           src={`/${img}`}
           alt={`scrolling img ${index}`}
-          className="w-auto  hover:opacity-60 hover:cursor-pointer"
+          className="w-auto hover:opacity-60 hover:cursor-pointer"
         />
       ))}
     </div>

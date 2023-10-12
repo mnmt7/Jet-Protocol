@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
@@ -6,15 +7,18 @@ import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
+import { toast } from "react-toastify";
+import Loader from "./Loader";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const supabase = createClientComponentClient();
-  const router = useRouter();
-  const [showHeader, setShowHeader] = useState(true);
   const [scrollY, setScrollY] = useState(0);
+  const [showHeader, setShowHeader] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
+  const router = useRouter();
+  const supabase = createClientComponentClient();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -34,13 +38,17 @@ const NavBar = () => {
 
   useEffect(() => {
     const checkLogin = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
 
-      if (session) {
-        setIsLoggedIn(true);
-      } else {
+        if (session) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (error) {
         setIsLoggedIn(false);
       }
     };
@@ -49,8 +57,11 @@ const NavBar = () => {
   }, []);
 
   const logout = async () => {
+    setLoggingOut(true);
     const { error } = await supabase.auth.signOut();
-    if (!error) {
+    if (error) {
+      toast.error("Logout failed");
+    } else {
       router.push("/");
       setIsLoggedIn(false);
     }
@@ -111,7 +122,7 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {pathname === "/dashboard" ? null : (
+          {pathname !== "/dashboard" && (
             <div
               className={`${
                 open ? "block" : "hidden"
@@ -127,10 +138,10 @@ const NavBar = () => {
             <div
               className={`${
                 open ? "block" : "hidden"
-              } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white lg:ml-4`}
-              onClick={logout}
+              } lg:block bg-sage-green hover:bg-sage-green-dark hover:cursor-pointer text-lg rounded-full text-black py-2 px-6 font-bold text-center mt-4 lg:mt-0 shadow-inner-black-white lg:ml-4 lg:w-28 lg:h-11`}
+              onClick={() => !loggingOut && logout()}
             >
-              logout
+              {loggingOut ? <Loader height={30} width={30} /> : "logout"}
             </div>
           )}
         </div>

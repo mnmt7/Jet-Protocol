@@ -13,7 +13,6 @@ export const fetchDataFromApi = async (url: string) => {
     const data = await response.json();
     return data;
   } catch (err) {
-    console.log(err);
-    return err;
+    throw new Error("An error occurred while fetching data from the API.");
   }
 };
